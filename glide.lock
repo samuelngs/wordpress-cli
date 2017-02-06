@@ -1,6 +1,8 @@
-hash: a8ca509cc8f4e28cfbc9f450fd24629758d95b61f863e5a78182f1e2ddab322e
-updated: 2017-02-05T22:00:14.742722383-07:00
+hash: 116c7c6e5b6790449313a4f229addf7ce2224949187d09362bae941555492972
+updated: 2017-02-06T16:06:56.639037344-07:00
 imports:
 - name: github.com/docker/libcompose
   version: 7c59e343cd9d1f3f5577b5bfb71f6486beb4c006
+- name: gopkg.in/alecthomas/kingpin.v2
+  version: e9044be3ab2a8e11d4e1f418d12f0790d57e8d70
 testImports: []
