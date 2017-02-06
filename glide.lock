@@ -1,0 +1,6 @@
+hash: a8ca509cc8f4e28cfbc9f450fd24629758d95b61f863e5a78182f1e2ddab322e
+updated: 2017-02-05T22:00:14.742722383-07:00
+imports:
+- name: github.com/docker/libcompose
+  version: 7c59e343cd9d1f3f5577b5bfb71f6486beb4c006
+testImports: []
