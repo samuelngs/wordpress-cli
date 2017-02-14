@@ -1,8 +1,12 @@
-hash: 116c7c6e5b6790449313a4f229addf7ce2224949187d09362bae941555492972
-updated: 2017-02-06T16:06:56.639037344-07:00
+hash: a8ca509cc8f4e28cfbc9f450fd24629758d95b61f863e5a78182f1e2ddab322e
+updated: 2017-02-06T22:39:56.094807446-07:00
 imports:
 - name: github.com/docker/libcompose
   version: 7c59e343cd9d1f3f5577b5bfb71f6486beb4c006
-- name: gopkg.in/alecthomas/kingpin.v2
-  version: e9044be3ab2a8e11d4e1f418d12f0790d57e8d70
+- name: github.com/inconshreveable/mousetrap
+  version: 76626ae9c91c4f2a10f34cad8ce83ea42c93bb75
+- name: github.com/spf13/cobra
+  version: 35136c09d8da66b901337c6e86fd8e88a1a255bd
+- name: github.com/spf13/pflag
+  version: 9ff6c6923cfffbcd502984b8e0c80539a94968b7
 testImports: []
