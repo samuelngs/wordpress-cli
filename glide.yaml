@@ -1,4 +1,15 @@
 package: github.com/samuelngs/wordpress-cli
 import:
+- package: github.com/docker/docker
+  version: ~1.13.0
+- package: github.com/docker/distribution
+  version: ~2.6.0
+  subpackages:
+  - registry
 - package: github.com/docker/libcompose
   version: ~0.4.0
+  subpackages:
+  - docker
+  - docker/ctx
+  - project
+- package: github.com/spf13/cobra
