@@ -16,9 +16,25 @@ import (
 	"github.com/docker/libcompose/project/options"
 )
 
+var files = []*file{
+	&file{
+		filename:  "plugins",
+		directory: true,
+	},
+	&file{
+		filename:  "theme",
+		directory: true,
+	},
+	&file{
+		filename: "theme/theme.resource",
+		content:  make([]byte, 0),
+	},
+}
+
 // app - the app controller
 type app struct {
 	name       string
+	dir        string
 	conf       []byte
 	proj       project.APIProject
 	ctx        context.Context
@@ -27,6 +43,12 @@ type app struct {
 }
 
 func (v *app) Up() error {
+
+	for _, f := range files {
+		if err := f.createIfNotExist(v.dir); err != nil {
+			return err
+		}
+	}
 
 	switch err := v.proj.Create(v.ctx, options.Create{
 		ForceRecreate: true,
@@ -133,6 +155,7 @@ func newApp(dir string) (*app, error) {
 
 	v := &app{
 		name:       name,
+		dir:        dir,
 		conf:       conf,
 		proj:       proj,
 		ctx:        ctx,
