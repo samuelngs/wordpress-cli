@@ -104,7 +104,7 @@ networks:
 `
 
 // buildConfig to build docker compose configuration
-func buildConfig(name, dir string) *Configuration {
+func buildConfig(hash, dir string) *Configuration {
 	return &Configuration{
 		Services: []*Service{
 			&Service{
@@ -115,10 +115,7 @@ func buildConfig(name, dir string) *Configuration {
 					"db": "/var/lib/mysql",
 				},
 				Environment: map[string]string{
-					"MYSQL_ROOT_PASSWORD": "password",
-				},
-				Networks: []string{
-					"db",
+					"MYSQL_ROOT_PASSWORD": hash,
 				},
 			},
 			&Service{
@@ -133,12 +130,8 @@ func buildConfig(name, dir string) *Configuration {
 					"theme":          "/var/www/html/wp-content/themes/default",
 				},
 				Environment: map[string]string{
-					"WORDPRESS_DB_HOST":     name + "_db_1:3306",
-					"WORDPRESS_DB_PASSWORD": "password",
-				},
-				Networks: []string{
-					"db",
-					"wp",
+					"WORDPRESS_DB_HOST":     hash + "_db_1:3306",
+					"WORDPRESS_DB_PASSWORD": hash,
 				},
 			},
 			&Service{
@@ -150,7 +143,7 @@ func buildConfig(name, dir string) *Configuration {
 					"theme":        "/wp-content/themes/default",
 				},
 				Environment: map[string]string{
-					"WP_TARGET_HOST": name + "_wordpress_1",
+					"WP_TARGET_HOST": hash + "_wordpress_1",
 					"WP_TARGET_PORT": "80",
 					"WP_PROXY_HOST":  "localhost",
 					"WP_PROXY_ADDR":  "0.0.0.0",
@@ -159,18 +152,11 @@ func buildConfig(name, dir string) *Configuration {
 				Ports: map[uint]uint{
 					5001: 5001,
 				},
-				Networks: []string{
-					"wp",
-				},
 			},
 		},
 		Volumes: []string{
 			"db",
 			"theme",
-		},
-		Networks: []string{
-			"db",
-			"wp",
 		},
 	}
 }
