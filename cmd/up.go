@@ -30,6 +30,8 @@ to quickly create a Cobra application.`,
 			log.Fatal(err)
 		}
 
+		fmt.Printf("\nServer is running on localhost:%s\n", app.Port())
+
 		switch detach, err := cmd.Flags().GetBool("detach"); {
 		case err != nil:
 			log.Fatal(err)

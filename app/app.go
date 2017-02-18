@@ -8,6 +8,7 @@ type App interface {
 	Down() error
 	Remove() error
 	Log(follow bool) error
+	Port() string
 }
 
 // Container interface

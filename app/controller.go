@@ -5,8 +5,10 @@ import (
 	"crypto/sha1"
 	"encoding/hex"
 	"fmt"
+	"hash/fnv"
 	"os"
 	"os/signal"
+	"strconv"
 	"strings"
 	"syscall"
 
@@ -34,6 +36,7 @@ var files = []*file{
 // app - the app controller
 type app struct {
 	name       string
+	port       string
 	dir        string
 	conf       []byte
 	proj       project.APIProject
@@ -114,6 +117,10 @@ func (v *app) Log(follow bool) error {
 	return <-doneCh
 }
 
+func (v *app) Port() string {
+	return v.port
+}
+
 func (v *app) cancel() {
 	if v.cancelled {
 		return
@@ -128,13 +135,30 @@ func hash(s string) string {
 	return hex.EncodeToString(hasher.Sum(nil))[:10]
 }
 
+func port(s string) string {
+	hasher := fnv.New32a()
+	hasher.Write([]byte(s))
+	o := strconv.FormatUint(uint64(hasher.Sum32()), 10)
+	if l := len(o); l >= 4 {
+		o = o[:4]
+	} else {
+		o = o[:l]
+	}
+	n, _ := strconv.ParseUint(o, 0, 64)
+	n += uint64(start)
+	return strconv.FormatUint(n, 10)
+}
+
 func newApp(dir string) (*app, error) {
 
 	// create project hash name
 	name := hash(dir)
 
+	// find unique port
+	port := port(name)
+
 	// compile docker compose template
-	conf, err := compile(buildConfig(name, dir))
+	conf, err := compile(buildConfig(name, dir, port))
 	if err != nil {
 		return nil, err
 	}
@@ -155,6 +179,7 @@ func newApp(dir string) (*app, error) {
 
 	v := &app{
 		name:       name,
+		port:       port,
 		dir:        dir,
 		conf:       conf,
 		proj:       proj,

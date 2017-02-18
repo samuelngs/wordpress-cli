@@ -3,6 +3,12 @@ package app
 import (
 	"bytes"
 	"html/template"
+	"strconv"
+)
+
+var (
+	start = 49152
+	end   = 65535
 )
 
 // Service struct
@@ -104,7 +110,8 @@ networks:
 `
 
 // buildConfig to build docker compose configuration
-func buildConfig(hash, dir string) *Configuration {
+func buildConfig(hash, dir, port string) *Configuration {
+	u, _ := strconv.ParseUint(port, 0, 64)
 	return &Configuration{
 		Services: []*Service{
 			&Service{
@@ -147,10 +154,10 @@ func buildConfig(hash, dir string) *Configuration {
 					"WP_TARGET_PORT": "80",
 					"WP_PROXY_HOST":  "localhost",
 					"WP_PROXY_ADDR":  "0.0.0.0",
-					"WP_PROXY_PORT":  "5001",
+					"WP_PROXY_PORT":  port,
 				},
 				Ports: map[uint]uint{
-					5001: 5001,
+					uint(u): uint(u),
 				},
 			},
 		},
